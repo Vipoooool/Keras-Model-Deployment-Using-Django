@@ -57,6 +57,7 @@ class_names = list(class_dict.keys())
 
 def prediction(request):
     if request.method == 'POST' and request.FILES['myfile']:
+        post = request.method == 'POST'
         myfile = request.FILES['myfile']
         img = image.load_img(myfile, target_size=(224, 224))
         img = image.img_to_array(img)
@@ -69,6 +70,7 @@ def prediction(request):
         for index, item in enumerate(preds):
             if item == m:
                 result = class_names[index]
-
-    return render(request, "plant_diseases_recognition_app/prediction.html", {
+        return render(request, "plant_diseases_recognition_app/prediction.html", {
             'result': result})
+    else:
+        return render(request, "plant_diseases_recognition_app/prediction.html")
